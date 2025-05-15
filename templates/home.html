@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Flunk'd</title>
+</head>
+<body>
+    <div id="overlay">
+        <div id="done-screen">
+            <h2>Done!</h2>
+            <div id="restart" onclick="restart()">RESTART!</div>
+        </div>
+    </div>
+    <header>
+        <div id="title">Welcome to Flunk'd</div>
+        <div id="score">Score: 0</div>
+    </header>
+    <main>
+        <div class="course course-left">
+            <div class="course-info">
+                <div class="course_title refrence">{{Ref_Course_Title}}</div>
+                <div class="course_id refrence">{{Ref_Course_ID}}</div>
+                <hr style="width:70%;">
+                <div class="course_description refrence"><p>{{Ref_Course_Descripition}}</p></div>
+            </div>
+            <div class="course-bot refrence">
+                <div id="fail_percentage_text" class="refrence">Fail Percentage: </div>
+                <div id="fail_percentage" class="refrence">{{Ref_Fail_Percentage }} %</div>
+
+            </div>
+
+        </div>
+        <div class="course course-right">
+            <div class="course-info">
+                <div class="course_title assignment">{{Ass_Course_Title}}</div>
+                <div class="course_id assignment">{{Ass_Course_ID}}</div>
+                <hr style="width:70%;">
+                <div class="course_description assignment"><p>{{Ass_Course_Descripition}}</p></div>
+            </div>
+            <div class="course-bot assignment">
+                <div class="select-button higher" onclick="btn_clicked('higher')">HIGHER</div>
+                <div class="select-button lower" onclick="btn_clicked('lower')">LOWER</div>
+            </div>
+
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Flunk'd. All rights reserved.</p>
+    </footer>
+    <script src="../static/script.js"></script>
+</body>
+</html>
