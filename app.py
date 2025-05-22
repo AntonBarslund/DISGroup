@@ -32,12 +32,15 @@ def home():
     global refrence_course , assignment_course, score
     # Retrieve the nickname from the cookie if it exists
     nickname = request.cookies.get('nickname', '')
+    if request.method == 'POST':
+        nickname = request.form.get('nickname', '') 
+        # TODO: add to the player db   
+    print(nickname)
+
     if nickname:
         score = 0
         refrence_course = get_random_course()
         assignment_course = get_random_course()
-        # Get the nickname from the form
-        nickname = request.form.get('nickname', '')
         # Create a response with the rendered template
         response = make_response(render_template("home.html", 
                            Ref_Course_Title=refrence_course[1], Ref_Course_ID = refrence_course[0], Ref_Course_Descripition=refrence_course[7], Ref_Fail_Percentage=refrence_course[8],
@@ -46,7 +49,8 @@ def home():
         response.set_cookie('nickname', nickname, max_age=30*24*60*60)
         return response
     else:
-        return render_template("home.html")
+        response = make_response(render_template("home.html"))
+        return response
 
 @app.route('/get_random_word')
 def get_random_word():
@@ -60,6 +64,9 @@ def get_random_word():
         return jsonify({"score": score, "state": 1, "Ref_Course_Title": refrence_course[1], "Ref_Course_ID": refrence_course[0], "Ref_Course_Descripition": refrence_course[7], "Ref_Fail_Percentage": refrence_course[8],
          "Ass_Course_Title": assignment_course[1], "Ass_Course_ID": assignment_course[0], "Ass_Course_Descripition": assignment_course[7]})
     else:
+        # TODO: add the score to a db
+        # TODO: find the users rank
+        # TODO: print the highscore, with highlight of user using jinja2
         score = 0
         return jsonify({"score": score, "state": 0, "Ref_Course_Title": refrence_course[1], "Ref_Course_ID": refrence_course[0], "Ref_Course_Descripition": refrence_course[7], "Ref_Fail_Percentage": refrence_course[8],
          "Ass_Course_Title": assignment_course[1], "Ass_Course_ID": assignment_course[0], "Ass_Course_Descripition": assignment_course[7]})
