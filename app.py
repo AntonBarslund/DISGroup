@@ -1,9 +1,7 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, make_response
 import random
 import psycopg2
 
-test_title = "IT WOOOOOORKS"
-test_ = "TeST course"
 
 app = Flask(__name__)
 # List of random words (you can expand this or use a library)
@@ -28,16 +26,27 @@ def get_random_course():
     return course
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def home():
     # give two random courses to the html
     global refrence_course , assignment_course, score
-    score = 0
-    refrence_course = get_random_course()
-    assignment_course = get_random_course()
-    return render_template("home.html", 
+    # Retrieve the nickname from the cookie if it exists
+    nickname = request.cookies.get('nickname', '')
+    if nickname:
+        score = 0
+        refrence_course = get_random_course()
+        assignment_course = get_random_course()
+        # Get the nickname from the form
+        nickname = request.form.get('nickname', '')
+        # Create a response with the rendered template
+        response = make_response(render_template("home.html", 
                            Ref_Course_Title=refrence_course[1], Ref_Course_ID = refrence_course[0], Ref_Course_Descripition=refrence_course[7], Ref_Fail_Percentage=refrence_course[8],
-                           Ass_Course_Title=assignment_course[1], Ass_Course_ID = assignment_course[0], Ass_Course_Descripition=assignment_course[7], Ass_Fail_Percentage=assignment_course[8])
+                           Ass_Course_Title=assignment_course[1], Ass_Course_ID = assignment_course[0], Ass_Course_Descripition=assignment_course[7], Ass_Fail_Percentage=assignment_course[8], nickname = nickname))
+        # Set the cookie with the nickname (expires in 30 days)
+        response.set_cookie('nickname', nickname, max_age=30*24*60*60)
+        return response
+    else:
+        return render_template("home.html")
 
 @app.route('/get_random_word')
 def get_random_word():

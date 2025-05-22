@@ -7,12 +7,28 @@
     <title>Flunk'd</title>
 </head>
 <body>
-    <div id="overlay">
-        <div id="done-screen">
+    <div id="done", class="overlay">
+        <div id="done-screen", class="overlay-screen">
             <h2>Done!</h2>
-            <div id="restart" onclick="restart()">RESTART!</div>
+            <div id="restart" onclick="restart()">RESTsART!</div>
         </div>
     </div>
+    {% if nickname %}
+    <p>{{nickname}}</p>
+    {% else %}
+    <div id="login" class="overlay">
+        <div id="form-container", class="overlay-screen">
+            <form id="nickname-form" method="POST" action="/">
+                <label id="nicklabel" for="nickname">Enter your nickname:</label>
+                <div id="nickname-container">
+                    <input type="text" id="nickname" name="nickname" >
+                    <button id="nickbutton"type="submit">Save Nickname</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
     <header>
         <div id="title">Welcome to Flunk'd</div>
         <div id="score">Score: 0</div>

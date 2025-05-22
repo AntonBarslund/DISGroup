@@ -6,7 +6,7 @@ function btn_clicked(con) {
             // Update the course title
             if (data.state == 0) {
                 console.log("FAIIIIILL");
-                document.getElementById('overlay').style.display = "block"
+                document.getElementById('done').style.display = "block"
               } else {
                 console.log(data)
                 document.getElementById('score').textContent = `Score: ${data.score}`;
