@@ -32,6 +32,7 @@ def home():
     global refrence_course , assignment_course, score
     # Retrieve the nickname from the cookie if it exists
     nickname = request.cookies.get('nickname', '')
+    print(nickname)
     if nickname:
         score = 0
         refrence_course = get_random_course()
@@ -66,6 +67,6 @@ def get_random_word():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8001)
 
     

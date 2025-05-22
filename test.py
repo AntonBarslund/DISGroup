@@ -9,7 +9,7 @@ def create_new_user(username):
     port="5432"
     )
     cur = conn.cursor()
-    cur.execute("INSERT INTO users (name) VALUES (%s) RETURNING user_id;", 
+    cur.execute("INSERT INTO users (name) VALUES (%s) RETURNING user_id, name;", 
                 (username,))
     
     new_user = cur.fetchall()[0]
@@ -18,6 +18,9 @@ def create_new_user(username):
     conn.close()
 
     return new_user
+
+id, name = create_new_user("test")
+print(f"id: {id}, name: {name}")
 
 def new_score(user_id, score): 
     conn = psycopg2.connect(
@@ -59,10 +62,10 @@ def get_all_users_and_scores():
     
     return users, scores
 
-create_new_user("Mister Mistro")
-new_score (5, 4)
+# create_new_user("Mister Mistro")
+# new_score (5, 4)
         
-    
+"""
 users, scores = get_all_users_and_scores()
 
 for score in scores: 
@@ -72,3 +75,39 @@ for score in scores:
 for user in users:
     user_id, name = user
     print(f"User ID: {user_id}, Name: {name}")
+ """
+
+
+def high_score(): 
+    conn = psycopg2.connect(
+        dbname="courses",
+        user="jeppebondebakkensen",
+        password="admin",
+        host="localhost",
+        port="5432"
+    )
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT 
+            u.user_id,
+            u.name,
+            MAX(s.score_value) AS max_score
+        FROM users u
+        JOIN scores s ON u.user_id = s.user_id
+        GROUP BY u.user_id, u.name
+        ORDER BY max_score ASC;
+    """)
+
+    results = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return results
+
+
+high_score = high_score()
+
+for id, name, score in high_score: 
+    print(f"ID: {id}, username: {name}, score: {score}")

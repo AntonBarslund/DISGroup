@@ -17,32 +17,35 @@ CREATE TABLE IF NOT EXISTS exam_types (
     exam_type VARCHAR(255) NOT NULL
 );
 
+-- Drop dependent table first
+DROP TABLE IF EXISTS scores;
+DROP TABLE IF EXISTS users;
 
 -- Create 'users' table
-DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
--- Insert sample users
-INSERT INTO users (name) VALUES
-('Wally McWiggle'),
-('Bubbles O''Snort'),
-('Pickle Von Quirk'),
-('Noodle McDoodle'),
-('Fizzle McSprankle');
-
 -- Create 'scores' table
-DROP TABLE IF EXISTS scores;
 CREATE TABLE scores (
-    score_id SERIAL PRIMARY KEY,  -- SERIAL is PostgreSQL auto-increment
+    score_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     score_value INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Insert scores
+-- Insert sample users (must come BEFORE scores)
+INSERT INTO users (name) VALUES
+('Wally McWiggle'),
+('Bubbles O''Snort'),
+('Pickle Von Quirk'),
+('Noodle McDoodle'),
+('Fizzle McSprankle'),
+('Miss fortune'), 
+('RUS');
+
+-- Insert scores (use correct user_id values that match existing users)
 INSERT INTO scores (user_id, score_value) VALUES
 (5, 88),
 (2, 75),
