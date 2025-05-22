@@ -7,6 +7,13 @@ function btn_clicked(con) {
             if (data.state == 0) {
                 console.log("FAIIIIILL");
                 document.getElementById('done').style.display = "block"
+                const highscoreDiv = document.getElementById('highscore');
+                let table = '<table><thead><tr><th>Name</th><th>Score</th></tr></thead><tbody>';
+                data.hscore.forEach(row => {
+                    table += `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`;
+                });
+                table += '</tbody></table>';
+                highscoreDiv.innerHTML = table;
               } else {
                 console.log(data)
                 document.getElementById('score').textContent = `Score: ${data.score}`;
