@@ -1,7 +1,16 @@
 from flask import Flask, render_template, jsonify, request, make_response
 import psycopg2
 
-def create_new_user(username): 
+def create_new_user(username):
+    """
+    This functions creates a new user in the database.
+
+    Arguments:
+        username (str): The name of the user.
+
+    Returns:
+        tuple: It returns the newly created user's user_id and name in a tuple (user_id, name)
+    """ 
     conn = psycopg2.connect(
     dbname="courses",
     user="postgres",
@@ -20,7 +29,17 @@ def create_new_user(username):
 
     return new_user
 
-def new_score(user_id, score): 
+def new_score(user_id, score):
+    """
+    This function inserts a new score for a user into the database.
+
+    Argsuments:
+        user_id (int): The ID of the user.
+        score (int): The value of the score to insert into the database.
+
+    Returns:
+        tuple: The newly created score's (score_id, user_id) from the database.
+    """
     conn = psycopg2.connect(
     dbname="courses",
     user="postgres",
@@ -40,7 +59,13 @@ def new_score(user_id, score):
 
     return new_score
 
-def high_score(): 
+def high_score():
+    """
+    This function retrieves the top 5 users with the highest scores from the database.
+
+    Returns:
+        list: A list of tuples containing the user names and their maximum scores, ordered by score in descending order.
+    """
     conn = psycopg2.connect(
     dbname="courses",
     user="postgres",
@@ -71,6 +96,13 @@ app = Flask(__name__)
 
 refrence_course = []
 def get_random_course():
+    """
+    This function retrieves a random course from the database, excluding the reference course.
+
+    Returns:
+        tuple: A tuple containing the course details (course_id, title, description, etc.).
+               If no course is found, it returns an empty tuple.
+    """
     global refrence_course , assignment_course
 
     conn = psycopg2.connect(
