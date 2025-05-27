@@ -1,0 +1,28 @@
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore environment variables and configuration files
+.env
+*.env
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore any local development files
+*.local
+
+# Ignore logs
+*.log
+
+# Ignore any other files or directories that should not be included in the Docker image
+*.sqlite3
+*.db
+*.DS_Store
+node_modules/
+npm-debug.log
