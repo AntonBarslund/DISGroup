@@ -1,8 +1,8 @@
-Flask Higher-Lower Game with Course Data
+Database and information system project: Flunked
+
 Overview
-This project is a Flask-based web application that implements a "Higher-Lower" game using course data scraped from kucourses.dk. Players guess whether one course has a higher or lower fail percentage compared to another. The app uses a PostgreSQL database to store user scores and course data, and it's containerized with Docker for easy deployment.
-Project Structure
-.
+Our project is a Flask-based web application where we have created a "Higher or Lower" styled game, where the user guess weather one KU course has a higher or lower fail percentage copared to another course. We have in our project used a PostgreSQL database to store the users name, score and the course data we have scraped from kucourses.dk, and used Docker for easy deployment of the application. 
+
 ├── static/
 │   ├── script.js       # JavaScript for game logic
 │   └── style.css       # CSS for styling
@@ -20,7 +20,7 @@ Project Structure
 Features
 
 Scrape course data (e.g., fail percentages, titles) from kucourses.dk.
-Store user scores and course data in a PostgreSQL database.
+Store usernames, user scores and course data in a PostgreSQL database.
 Play a Higher-Lower game comparing course fail percentages.
 Dockerized setup for easy deployment.
 
@@ -30,20 +30,21 @@ Docker and Docker Compose installed on your machine.
 Docker Desktop (macOS/Windows)
 Docker Engine and Docker Compose (Linux)
 
-
-Internet access for scraping and pulling Docker images.
-
 Setup Instructions
-1. Clone the Repository
+1. Clone the Repository from the github page: 
 
 2. Configure Environment Variables in docker-compose.yml
+    Edit the enviroment varible so 
+        PGUSER is your username
+        PGPASSWORD to your password 
+    You should do it in the top and bottom of the file
 
 3. Build and Run with Docker Compose
     Make sure docker is up and running
     Run this command:
     docker-compose up --build
     
-    It takes about 1 minute to build.
+    It takes about 1 minute to build if the df_cleaned.csv isn't in the directory
 
 
 This starts two services:
