@@ -43,7 +43,7 @@ Setup Instructions
     Run this command:
     docker-compose up --build
     
-    It takes about 1 minute to build if the df_cleaned.csv isn't in the directory
+    It takes about 1 minute to build.
 
 
 This starts two services:
