@@ -17,21 +17,22 @@ Our project is a Flask-based web application where we have created a "Higher or 
 ├── requirements.txt    # Python dependencies
 └── README.md           # This file
 
-Features
+Features:
 
 Scrape course data (e.g., fail percentages, titles) from kucourses.dk.
 Store usernames, user scores and course data in a PostgreSQL database.
 Play a Higher-Lower game comparing course fail percentages.
 Dockerized setup for easy deployment.
 
-Requirements
+Requirements:
 
 Docker and Docker Compose installed on your machine.
 Docker Desktop (macOS/Windows)
 Docker Engine and Docker Compose (Linux)
 
-Setup Instructions
+Setup Instructions:
 1. Clone the Repository from the github page: 
+
 
 2. Configure Environment Variables in docker-compose.yml
     Edit the enviroment varible so 
@@ -39,19 +40,18 @@ Setup Instructions
         PGPASSWORD to your password 
     You should do it in the top and bottom of the file
 
+
 3. Build and Run with Docker Compose
     Make sure docker is up and running
     Run this command:
     docker-compose up --build
-    
+
     It takes about 1 minute to build if the df_cleaned.csv isn't in the directory
-
-
-This starts two services:
-app: The Flask application on port 8001.
-db: A PostgreSQL database on port 5432.
+    This starts two services:
+    app: The Flask application on port 8001.
+    db: A PostgreSQL database on port 5432.
 
 
 4. Access the Application
-Open your browser and go to http://localhost:8001.
-Play the game by entering a nickname and guessing whether the fail percentage of one course is higher or lower than another.
+    Open your browser and go to http://localhost:8001.
+    Play the game by entering a nickname and guessing whether the fail percentage of one course is higher or lower than another.
