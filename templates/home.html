@@ -21,9 +21,9 @@
     <div id="login" class="overlay">
         <div id="form-container", class="overlay-screen">
             <form id="nickname-form" method="POST" action="/">
-                <label id="nicklabel" for="nickname">Enter your nickname:</label>
+                <label id="nicklabel" for="nickname" >Enter your nickname:</label>
                 <div id="nickname-container">
-                    <input type="text" id="nickname" name="nickname" >
+                    <input type="text" id="nickname" name="nickname" maxlength="50" >
                     <button id="nickbutton" type="submit">Save Nickname</button>
                 </div>
             </form>
@@ -52,7 +52,7 @@
         </div>
         <div class="course course-right">
             <div class="course-info">
-                <div class="course_title assignment">{{Ass_Course_Title}}</div>
+                <div class="course_title assignment" >{{Ass_Course_Title}}</div>
                 <div class="course_id assignment">{{Ass_Course_ID}}</div>
                 <hr style="width:70%;">
                 <div class="course_description assignment"><p>{{Ass_Course_Descripition}}</p></div>

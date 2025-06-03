@@ -10,7 +10,11 @@ function btn_clicked(con) {
                 const highscoreDiv = document.getElementById('highscore');
                 let table = '<table><thead><tr><th>Name</th><th>Score</th></tr></thead><tbody>';
                 data.hscore.forEach(row => {
-                    table += `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`;
+                    if (row.length > 2) {
+                        table += `<tr><td><strong>${row[0]}</strong></td><td><strong>${row[1]}</strong></td></tr>`;
+                    } else {
+                        table += `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`;
+                    }
                 });
                 table += '</tbody></table>';
                 highscoreDiv.innerHTML = table;

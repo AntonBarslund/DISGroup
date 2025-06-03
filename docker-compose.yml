@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8001:8001"
+    environment:
+      - PGUSER='postgres'
+      - PGPASSWORD='admin'
+      - HOST='database'
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ./:/code
+    links:
+      - database
+
+  database:
+    image: postgres:13
+    container_name: database
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -t 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=courses
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

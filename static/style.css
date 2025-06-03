@@ -19,13 +19,14 @@ body{
     padding: 50px;
     background-color: #fff;
     margin: 30vh auto;
-    width: 400px;
+    width: fit-content;
     height: 300px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
 }
+
 #login{
     display: block;
 }
@@ -47,7 +48,6 @@ body{
 }
 #nickname{
     margin: 10px;
-
     background-color: #eaeaeaf2;
     font-size: 30px;
     width: 200px;
@@ -79,7 +79,6 @@ body{
     background-color: #ffcc00;
 }
 
-
 #restart{
     background-color: #7A93AC;
     color: white;
@@ -88,9 +87,8 @@ body{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 header{
     font-size: 50px;

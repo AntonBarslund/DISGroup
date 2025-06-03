@@ -1,5 +1,9 @@
 from flask import Flask, render_template, jsonify, request, make_response
 import psycopg2
+from methods.database import db_connection, init_db
+import bisect
+
+init_db()  # Initialize the database
 
 def create_new_user(username):
     """
@@ -11,13 +15,7 @@ def create_new_user(username):
     Returns:
         tuple: It returns the newly created user's user_id and name in a tuple (user_id, name)
     """ 
-    conn = psycopg2.connect(
-    dbname="courses",
-    user="postgres",
-    password="admin",
-    host="localhost",
-    port="5432"
-    )
+    conn = db_connection()
     cur = conn.cursor()
     cur.execute("INSERT INTO users (name) VALUES (%s) RETURNING user_id, name;", 
                 (username,))
@@ -40,13 +38,7 @@ def new_score(user_id, score):
     Returns:
         tuple: The newly created score's (score_id, user_id) from the database.
     """
-    conn = psycopg2.connect(
-    dbname="courses",
-    user="postgres",
-    password="admin",
-    host="localhost",
-    port="5432"
-    )
+    conn =  db_connection()
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO scores (user_id, score_value) VALUES (%s, %s) RETURNING score_id, user_id;",
@@ -66,28 +58,21 @@ def high_score():
     Returns:
         list: A list of tuples containing the user names and their maximum scores, ordered by score in descending order.
     """
-    conn = psycopg2.connect(
-    dbname="courses",
-    user="postgres",
-    password="admin",
-    host="localhost",
-    port="5432"
-    )
+    conn =  db_connection()
     cur = conn.cursor()
     cur.execute("""
-        SELECT 
-            u.name,
-            MAX(s.score_value) AS max_score
-        FROM users u
-        JOIN scores s ON u.user_id = s.user_id
-        GROUP BY u.user_id, u.name
-        ORDER BY max_score DESC
+       SELECT 
+            u.name, 
+            s.score_value 
+        FROM users u 
+        JOIN scores s ON u.user_id=s.user_id 
+        ORDER BY s.score_value DESC 
         LIMIT 5;
     """)
     results = cur.fetchall()
     cur.close()
     conn.close()
-
+    print(results)
     return results
 
 
@@ -105,13 +90,7 @@ def get_random_course():
     """
     global refrence_course , assignment_course
 
-    conn = psycopg2.connect(
-        dbname="courses",
-        user="postgres",
-        password="admin",
-        host="localhost",
-        port="5432"
-        )
+    conn =  db_connection()
     cur = conn.cursor()
     cur.execute("SELECT * FROM KUcourses1 WHERE NOT course_id = %s ORDER BY RANDOM() LIMIT 1;",
                 (refrence_course[0] if refrence_course and refrence_course[0] else "mock",))
@@ -160,24 +139,17 @@ def get_random_word():
         return jsonify({"score": score, "state": 1, "Ref_Course_Title": refrence_course[1], "Ref_Course_ID": refrence_course[0], "Ref_Course_Descripition": refrence_course[6], "Ref_Fail_Percentage": refrence_course[11],
          "Ass_Course_Title": assignment_course[1], "Ass_Course_ID": assignment_course[0], "Ass_Course_Descripition": assignment_course[6]})
     else:
-        print(nickname)
         hscore = high_score()
-        hscore.append((player_id, score))
-        print(hscore)
-        new_hscore = []
         new_score(player_id, score)
-        for name, score1 in hscore:
-            if score1 <= score:
-                new_hscore.append([nickname,score])
-            else:
-                new_hscore.append([name, score1])
-        print(new_hscore)
+        keys = [-x[1] for x in hscore]
+        index = bisect.bisect_left(keys, -score)
+        hscore.insert(index, (nickname, score, 1))
         score = 0
         return jsonify({"score": score, "state": 0, "Ref_Course_Title": refrence_course[1], "Ref_Course_ID": refrence_course[0], "Ref_Course_Descripition": refrence_course[6], "Ref_Fail_Percentage": refrence_course[11],
-         "Ass_Course_Title": assignment_course[1], "Ass_Course_ID": assignment_course[0], "Ass_Course_Descripition": assignment_course[6], "hscore": new_hscore})
+         "Ass_Course_Title": assignment_course[1], "Ass_Course_ID": assignment_course[0], "Ass_Course_Descripition": assignment_course[6], "hscore": hscore})
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8001)
+    app.run(debug=True, host="0.0.0.0", port=8001)
 
     
